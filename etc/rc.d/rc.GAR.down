@@ -1,0 +1,139 @@
+#! /bin/bash
+## rc.GAR.down - wkitty42 - July 2014
+##   performs the final teardown of the GAR related iptables rules, chains
+##   sets. teardown is the exact opposite of buildup so everything is done
+##   exactly backwards from rc.GAR.up.
+
+. /var/smoothwall/main/productdata
+. /var/smoothwall/ethernet/settings
+
+/usr/bin/logger -t GAR "============ $(basename $0) start ============"
+# first remove the GARcheckOutbound chain jumps from OUTPUT
+if [ "$RED_DEV" != "" ]; then
+  /usr/bin/logger -t GAR "Removing $RED_DEV GARcheckOutbound from OUTPUT chain"
+  /sbin/iptables -D OUTPUT -o $RED_DEV -j GARcheckOutbound
+  CMDRESULT=$?
+  /usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+fi
+/usr/bin/logger -t GAR "Removing ippp0 GARcheckOutbound from OUTPUT chain"
+/sbin/iptables -D OUTPUT -o ippp0 -j GARcheckOutbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+/usr/bin/logger -t GAR "Removing ppp0 GARcheckOutbound from OUTPUT chain"
+/sbin/iptables -D OUTPUT -o ppp0 -j GARcheckOutbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+
+# second remove the GARcheckInbound chain jumps from FORWARD
+if [ "$RED_DEV" != "" ]; then
+  /usr/bin/logger -t GAR "Removing RED_DEV GARcheckInbound from FORWARD chain"
+  /sbin/iptables -D FORWARD -i $RED_DEV -j GARcheckInbound
+  CMDRESULT=$?
+  /usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+fi
+/usr/bin/logger -t GAR "Removing ippp0 GARcheckInbound from FORWARD chain"
+/sbin/iptables -D FORWARD -i ippp0 -j GARcheckInbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+/usr/bin/logger -t GAR "Removing ppp0 GARcheckInbound from FORWARD chain"
+/sbin/iptables -D FORWARD -i ppp0 -j GARcheckInbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+
+# third remove the GARcheckOutbound chain jumps from FORWARD
+if [ "$RED_DEV" != "" ]; then
+  /usr/bin/logger -t GAR "Removing RED_DEV GARcheckOutbound from FORWARD chain"
+  /sbin/iptables -D FORWARD -o $RED_DEV -j GARcheckOutbound
+  CMDRESULT=$?
+  /usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+fi
+/usr/bin/logger -t GAR "Removing ippp0 GARcheckOutbound from FORWARD chain"
+/sbin/iptables -D FORWARD -o ippp0 -j GARcheckOutbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+/usr/bin/logger -t GAR "Removing ppp0 GARcheckOutbound from FORWARD chain"
+/sbin/iptables -D FORWARD -o ppp0 -j GARcheckOutbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+
+# fourth remove the GARcheckInbound chain jumps from INPUT
+if [ "$RED_DEV" != "" ]; then
+  /usr/bin/logger -t GAR "Removing RED_DEV GARcheckInbound from INPUT chain"
+  /sbin/iptables -D INPUT -i $RED_DEV -j GARcheckInbound
+  CMDRESULT=$?
+  /usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+fi
+/usr/bin/logger -t GAR "Removing ippp0 GARcheckInbound from INPUT chain"
+/sbin/iptables -D INPUT -i ippp0 -j GARcheckInbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+/usr/bin/logger -t GAR "Removing ppp0 GARcheckInbound from INPUT chain"
+/sbin/iptables -D INPUT -i ppp0 -j GARcheckInbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+
+# fifth flush and destroy the GARcheckOutbound chain
+/usr/bin/logger -t GAR "Flushing GARcheckOutbound chain"
+/sbin/iptables -F GARcheckOutbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+/usr/bin/logger -t GAR "Destroying GARcheckOutbound chain"
+/sbin/iptables -X GARcheckOutbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+
+# sixth flush and destroy the GARcheckInbound chain
+/usr/bin/logger -t GAR "Flushing GARcheckInbound chain"
+/sbin/iptables -F GARcheckInbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+/usr/bin/logger -t GAR "Destroying GARcheckInbound chain"
+/sbin/iptables -X GARcheckInbound
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+
+# seventh flush and destroy GARreject chain
+/usr/bin/logger -t GAR "Flushing GARreject chain"
+/sbin/iptables -F GARreject
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+/usr/bin/logger -t GAR "Destroying GARreject chain"
+/sbin/iptables -X GARreject
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+
+# eighth flush and destroy GARdrop chain
+/usr/bin/logger -t GAR "Flushing GARdrop chain"
+/sbin/iptables -F GARdrop
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+/usr/bin/logger -t GAR "Destroying GARdrop chain"
+/sbin/iptables -X GARdrop
+CMDRESULT=$?
+/usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+
+# nineth flush and destroy GARblockset
+if [ "$VERSION" = "3.0" ];
+then
+    /usr/bin/logger -t GAR "Flushing GARblockset set"
+    /usr/sbin/ipset -F GARblockset
+    CMDRESULT=$?
+    /usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+    /usr/bin/logger -t GAR "Destroying GARblockset set"
+    /usr/sbin/ipset -X GARblockset
+    CMDRESULT=$?
+    /usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+else
+    /usr/bin/logger -t GAR "Flushing GARblockset set"
+    /usr/sbin/ipset flush GARblockset
+    CMDRESULT=$?
+    /usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+    /usr/bin/logger -t GAR "Destroying GARblockset set"
+    /usr/sbin/ipset destroy GARblockset
+    CMDRESULT=$?
+    /usr/bin/logger -t GAR "CMDRESULT : $CMDRESULT"
+fi
+
+/usr/bin/logger -t GAR "============ $(basename $0) stop ============"
+
+exit 0

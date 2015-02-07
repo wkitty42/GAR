@@ -1,0 +1,38 @@
+#! /bin/bash
+
+. /var/smoothwall/ethernet/settings
+
+# first remove GARcheck from INPUT and FORWARD
+/sbin/iptables -D INPUT -i ppp0 -j GARcheck
+/sbin/iptables -D INPUT -i ippp0 -j GARcheck
+if [ "$RED_DEV" != "" ]; then
+  /sbin/iptables -D INPUT -i $RED_DEV -j GARcheck
+fi
+/sbin/iptables -D FORWARD -i ppp0 -j GARcheck
+/sbin/iptables -D FORWARD -i ippp0 -j GARcheck
+if [ "$RED_DEV" != "" ]; then
+  /sbin/iptables -D FORWARD -i $RED_DEV -j GARcheck
+fi
+/sbin/iptables -F GARcheck
+/sbin/iptables -X GARcheck
+
+# now remove GARblock chain
+/sbin/iptables -D GARblock -j LOG --log-prefix 'GAR-Blocked: '
+# if internal networks are defined, remove their rules
+if [ "$GREEN_DEV" != "" ]; then
+  /sbin/iptables -D GARblock -i $GREEN_DEV -j REJECT --reject-with icmp-admin-prohibited
+fi
+if [ "$PURPLE_DEV" != "" ]; then
+  /sbin/iptables -D GARblock -i $PURPLE_DEV -j REJECT --reject-with icmp-admin-prohibited
+fi
+if [ "$ORANGE_DEV" != "" ]; then
+  /sbin/iptables -D GARblock -i $ORANGE_DEV -j REJECT --reject-with icmp-admin-prohibited
+fi
+# remove the rules for the WAN interfaces
+/sbin/iptables -D GARblock -i ppp0 -j DROP
+/sbin/iptables -D GARblock -i ippp0 -j DROP
+if [ "$RED_DEV" != "" ]; then
+  /sbin/iptables -D GARblock -i $RED_DEV -j DROP
+fi
+iptables -F GARblock
+iptables -X GARblock

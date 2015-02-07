@@ -1,0 +1,38 @@
+#! /bin/bash
+
+. /var/smoothwall/ethernet/settings
+
+# create GARblock chain first
+/sbin/iptables -N GARblock
+/sbin/iptables -A GARblock -j LOG --log-prefix 'GAR-Blocked: '
+# if internal machines are trying to send traffic to a blocked WAN IP, reject the traffic
+if [ "$GREEN_DEV" != "" ]; then
+  /sbin/iptables -A GARblock -i $GREEN_DEV -j REJECT --reject-with icmp-admin-prohibited
+fi
+if [ "$PURPLE_DEV" != "" ]; then
+  /sbin/iptables -A GARblock -i $PURPLE_DEV -j REJECT --reject-with icmp-admin-prohibited
+fi
+if [ "$ORANGE_DEV" != "" ]; then
+  /sbin/iptables -A GARblock -i $ORANGE_DEV -j REJECT --reject-with icmp-admin-prohibited
+fi
+# anything making it to here must be from the one of the WAN interfaces and will be dropped
+/sbin/iptables -A GARblock -i ppp0 -j DROP
+/sbin/iptables -A GARblock -i ippp0 -j DROP
+if [ "$RED_DEV" != "" ]; then
+  /sbin/iptables -A GARblock -i $RED_DEV -j DROP
+fi
+
+# now create and insert GAR check at top of INPUT and FORWARD chains
+/sbin/iptables -N GARcheck
+/sbin/iptables -I INPUT -i ppp0 -j GARcheck
+/sbin/iptables -I INPUT -i ippp0 -j GARcheck
+if [ "$RED_DEV" != "" ]; then
+  /sbin/iptables -I INPUT -i $RED_DEV -j GARcheck
+fi
+/sbin/iptables -I FORWARD -i ppp0 -j GARcheck
+/sbin/iptables -I FORWARD -i ippp0 -j GARcheck
+if [ "$RED_DEV" != "" ]; then
+  /sbin/iptables -I FORWARD -i $RED_DEV -j GARcheck
+fi
+
+

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+CMDRESULT=0
+
+showusage () {
+  echo "USAGE: $(basename $0) sidnumber" > /dev/stderr
+  echo "  sidnumber is the SID number of the snort rule to be added" > /dev/stderr
+  echo "  to the disablesid includetor list." > /dev/stderr
+}
+
+getDateTime () {
+  NOWD=$(date "+%F")
+  NOWT=$(date "+%T")
+  NOWC=$(date "+%Y%m%d")
+}
+
+terminate () {
+  exit $CMDRESULT
+}
+
+#if [ $# -lt 1 ]
+#then
+#  showusage
+#  CMDRESULT=$E_NOARGS
+#  terminate
+#else
+  getDateTime
+  while read ;
+  do echo "disablesid $REPLY # $NOWC allow tor routers" ;
+  done
+#fi

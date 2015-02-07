@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# 1440 minutes in a day... -g is in minutes
+# 5 minutes
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.often "snortstats generating 5 minute stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 05mins.html -g 5 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 10 minutes
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.often "snortstats generating 10 minute stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 10mins.html -g 10 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 15 minutes
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.often "snortstats generating 15 minute stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 15mins.html -g 15 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 20 minutes
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.often "snortstats generating 20 minute stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 20mins.html -g 20 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 30 minutes
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.often "snortstats generating 30 minute stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 30mins.html -g 30 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 45 minutes
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.often "snortstats generating 45 minute stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 45mins.html -g 45 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err

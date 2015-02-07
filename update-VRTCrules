@@ -1,0 +1,2 @@
+# get new VRT Community rules at 1:22AM, once a day, every day
+22 1 * * * root /var/smoothwall/mods/GAR/usr/bin/update-VRTCrules.pl >/dev/null

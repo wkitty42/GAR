@@ -1,0 +1,52 @@
+<P><FONT SIZE='3'><STRONG><U>SNORT Stats v0.1a</U></STRONG></FONT></P>
+
+<P>This page allows you to view the current SNORT traffic statistics.</P>
+
+<P>For this page to be of any good to you, SNORT must be configured with the    
+perfmonitor preprocessor and it should be set to record the statistics at
+least once every five minutes. The typical config line for this option will
+look like this:<BR>
+<CENTER>preprocessor perfmonitor: time 300 snortfile snort.csv pktcnt 1</CENTER>
+<BR>
+</P>
+<HR>
+<P><B>Usage:</B></P>
+
+<UL>
+<LI>There are links at the top of the stats to take you to the GAR configuration
+page and to the GARTool Rules Management page.</LI>
+<BR>
+
+<LI>The versions of GAR and SNORT are displayed at the top between the above
+mentioned links.</LI>
+<BR>
+
+<LI>There is nothing for you to do other than to click on the links displayed
+for the time period you wish to view. Each stats page gives some information
+about your network connection and the data that SNORT has processed during
+the chosen time period. At the bottom of the page are two graphs. The first
+graph is of the average connection speed vs the average packet loss. The
+second graph is of the average number of SYN packets vs the average number of
+SYN ACK packets.</LI>
+<BR>
+
+<LI>Cron runs the update scripts at scheduled times during the day. Minutes
+based stats are updated every five minutes. Hourly stats once each hour. Daily
+stats once a day. To run the stats more often or to cover larger amounts of
+time than those given will consume more memory. Systems with 512M of RAM can
+expect to see swap space used due to the amount of memory the stats generator
+consumes when it runs.</LI>
+<BR>
+
+<LI>Each day, before the daily stats are run, the CSV file will be trimmed to
+18000 lines which is roughly 60 days when counting on five minute entries. The
+actual number of days depends on how often your SNORT is started or restarted.
+SNORT starts counting the time from when it is started or restarted and a new
+line is written to the file for each start or restart.</LI>
+<BR>
+
+<LI>You must use your browser's BACK button to return to the SNORT Stats page.
+</LI>
+
+</UL>
+

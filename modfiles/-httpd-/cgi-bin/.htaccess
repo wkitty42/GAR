@@ -1,0 +1,5 @@
+AuthName "Restricted"
+AuthType Basic
+AuthUserFile /var/smoothwall/auth/users
+
+require user admin

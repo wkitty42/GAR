@@ -1,0 +1,117 @@
+<P><FONT SIZE='3'><B><U>Guardian Active Response System</U></B></FONT></P>
+
+<P>This page is used to activate or deactivate the GAR (Guardian Active
+Response) service. GAR's logs are viewable from the GAR log viewer on the
+<B>Logs</B> page.
+</P>
+
+<P><FONT SIZE='3'><B><U>GAR Settings</U></B></FONT></P>
+
+<P><FONT SIZE='2'><U>The first subsection</U></FONT> is where you enable or
+disable GAR by adding or removing the check in the box next to "Enabled:"
+and clicking the "Save" button. This also section tells you what versions
+of GAR and Snort you are running as well as providing a link to the GAR
+tools page.</P>
+
+<P><FONT SIZE='2'><U>The second subsection</U></FONT> is for setting the
+blocking time limits for the alert priorities that snort generates. Alert
+Priority 1 is assigned by snort to the highest level of severity and Priority
+4 is the lowest. These priorities are based on the snort rulesets that are
+downloaded from the snort.org site. There is also a "priorityless" or empty
+priority alert which are primarily created by snort's internal alert
+generators to activities that may be deemed a threat.</P>
+
+<P><B>Blocking Time Limits:</B><BR>
+<UL>
+<LI>Blocking Time Limits are set by choosing the <U>quantity</U> of time and the <U>format</U> of time.</LI>
+<LI>The quantity can range from 0 (zero) to 30.</LI>
+<LI>The format selectors are Minutes, Hours, Days, Weeks, Months, or No Limit.</LI>
+<LI><U>NOTES</U>:
+<UL>
+<LI><I>A month is calculated as <U>30 days</U>.</I></LI>
+<LI><I>Selecting a quantity of 0 (zero) indicates that the Default Time Limit values are to be used.</I></LI>
+<LI><I>Selecting a format of 'No Limit' indicates that any selected quantity is ignored and the block will be "forever".</I></LI>
+<LI><I>Currently "forever" is something over three years.</I></LI>
+</UL>
+</UL></P>
+
+<P><B>Priorities and Logging:</B><BR>
+<UL>
+<LI>Select the minimum priority to block (usually priority 1).</LI>
+<LI>Select the maximum priority level to block (snort currently supports up to 4 priorities).</LI>
+<LI>Select whether to block empty priority alerts. There are numerous cases where you may not want these to be blocked.</LI>
+<LI>Select to have GAR turn ON the Logging flag in the ipblock table entry or not. If this flag is ON, all subsequent connection attempts by a blocked IP will appear in the standard <I>firewall log</I>. When you <U>export</U> the firewall logs, the GAR entries will be prefixed with "GAR DROP".</LI>
+<LI>Select the GAR Logging Level setting for the desired level of detail in the GAR log file. The higher the number, the more details will be recorded about GAR's activities and the larger the log file will be. This is only for GAR's logs. It is not related to the firewall logs.</LI>
+<LI>The <I>recommended</I> Logging Level is 4.</LI>
+</UL></P>
+
+<P><FONT SIZE='2'><U>The third subsection</U></FONT> is used to define SIDs and GIDs you want GAR to ignore and not block on. SID stands for Snort ID. GID stands for Generator ID. Each alert that snort creates contains the ID of the generator code that caught the alert, the Snort ID which is the rule identification number and finally the revision number of the rule. Each of these three items is separated by a colon "<B>:</B>" and the entire group is contained within square brackets. They look like the examples in the following table.<BR>
+<CENTER>
+<TABLE class='list' style='width:50%;'>
+<TR><TH class='list'>Entry</TH><TH class='list'>GID</TH><TH class='list'>SID</TH><TH class='list'>Revision</TH></TR>
+<TR class='dark'><TD class='list'>&nbsp;[125:7:1]&nbsp;</TD><TD class='list'>&nbsp;&nbsp;&nbsp;125&nbsp;&nbsp;&nbsp;</TD><TD class='list'>&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;</TD><TD class='list'>&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR class='light'><TD class='list'>&nbsp;[119:16:5]&nbsp;</TD><TD class='list'>&nbsp;&nbsp;&nbsp;119&nbsp;&nbsp;&nbsp;</TD><TD class='list'>&nbsp;&nbsp;&nbsp;16&nbsp;&nbsp;&nbsp;</TD><TD class='list'>&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR class='dark'><TD class='list'>&nbsp;[1:2003:8]&nbsp;</TD><TD class='list'>&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;</TD><TD class='list'>&nbsp;&nbsp;&nbsp;2003&nbsp;&nbsp;&nbsp;</TD><TD class='list'>&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE>
+</CENTER>
+<BR>You'll see these in the GAR log and on the IPBLOCK page. If there are any that you don't want to be acted upon, then you can list them in the SID or GID whitelist.<BR>
+<BR>
+To enter a SID, you must list it with its GID. For example, if you do not want 125:7:1 to be acted on, then you list it as 125:7 in the SID Whitelist. If you don't want any of the ftp_telnet generated alerts to be acted upon, then you simply list 125 in the GID Whitelist. [See below for a list of GIDs and their generators.]</P>
+
+<P><U>Make sure that you click the "Save Configuration" button!</U></P>
+
+<P><FONT SIZE='2'><U>The fourth subsection</U></FONT> is used to add or edit IP addresses you want whitelisted so that GAR will not block traffic from them. The IP addresses of the interfaces (Green, Orange, Purple) should appear in the list as well as your ISP's DNS addresses. You can edit, add or remove any that you wish. You may also add comments for each whitelisted IP.</P>
+
+<HR>
+<P>All IP addresses that are blocked by GAR are placed in the ipblock table and a GARTracker entry will be generated for them. Each GAR maintained entry will appear in the ipblock list as <B>"Blocked by GAR"</B> on the ipblock page. These blocks will remain for the length of time that you have specified as explained in the above GAR configuration subsections. If a system causes another alert before its block time expires, there will be another line added to its GARTracker entry. If the new alert from this system is of a lessor priority and the block time would be reduced, GAR will retain the existing block expiration time. If the new alert extends the block expiration time, it will be noted in the entry and the block time expiration will be extended.</P>
+
+<P>Each time a system triggers an alert, there will be a new line added to its GARTracker table entry and the ipblock table entry will be updated. You could end up with systems in your ipblock list that do not expire and get removed because they never reach their assigned expiration time limit. In such cases, it may be beneficial to convert them from GAR maintained to manually maintained on the IPBlock page by selecting them and clicking on the "Gar -> Manual" button.</P>
+
+<P>A blocked IP's GARTracker record can be accessed by clicking on the <B>"BLOCKED by Gar"</B> link in the IP's listing in the ipblock table. A pop-up window will load and display some information about the IP, the list of violations recorded, and the whois information on the IP.</P>
+
+<P>Note: Gar monitors its config, ignore and target files for changes and will automatically reload them and make the new settings active when the "Save Configuration" button is clicked.</P>
+
+<P><I>Any time you stop and restart Gar, all existing blocked IPs will be removed from the ipblock table and will no longer be actively blocked by iptables. These entries are saved to a file so they can be reloaded the next time GAR starts. If there are any entries who's time has expired while GAR was shut down, they will be removed automatically. This means that IP blocks will carry over reboots and down time, also.</I></P>
+<HR>
+<P><FONT SIZE='3'><B><U>Snort Generator IDs</U></B></FONT></P>
+
+<CENTER>
+<TABLE class='list'>
+<TR><TH class='list'>Snort subsystem</TH><TH class='list' style='width:10%'>GID</TH><TH class='list'>Generic Description</TH></TR>
+<TR class='dark'><TD class='list'>rules_subsystem</TD><TD class='list'>1</TD><TD class='list' style='vertical-align:top;'>Snort Rules Engine</TD></TR>
+<TR class='light'><TD class='list'>tag_subsystem</TD><TD class='list'>2</TD><TD class='list' style='vertical-align:top;'>Tagging Subsystem</TD></TR>
+<TR class='dark'><TD class='list'>dynamic_subsystem</TD><TD class='list'>3</TD><TD class='list' style='vertical-align:top;'>Dynamic Rules Subsystem</TD></TR>
+<TR class='light'><TD class='list'><S>portscan</S></TD><TD class='list'>100</TD><TD class='list' style='vertical-align:top;'>Portscan1 [REMOVED]</TD></TR>
+<TR class='dark'><TD class='list'><S>minfrag</S></TD><TD class='list'>101</TD><TD class='list' style='vertical-align:top;'>Minfrag [REMOVED]</TD></TR>
+<TR class='light'><TD class='list'><S>http_decode</S></TD><TD class='list'>102</TD><TD class='list' style='vertical-align:top;'>HTTP decode 1/2 [REMOVED]</TD></TR>
+<TR class='dark'><TD class='list'><S>defrag</S></TD><TD class='list'>103</TD><TD class='list' style='vertical-align:top;'>First defragmenter [REMOVED]</TD></TR>
+<TR class='light'><TD class='list'><S>spade</S></TD><TD class='list'>104</TD><TD class='list' style='vertical-align:top;'>SPADE [REMOVED]</TD></TR>
+<TR class='dark'><TD class='list'>bo</TD><TD class='list'>105</TD><TD class='list' style='vertical-align:top;'>Back Orifice</TD></TR>
+<TR class='light'><TD class='list'>rpc_decode</TD><TD class='list'>106</TD><TD class='list' style='vertical-align:top;'>RPC Preprocessor</TD></TR>
+<TR class='dark'><TD class='list'><S>stream2</S></TD><TD class='list'>107</TD><TD class='list' style='vertical-align:top;'>2nd stream preprocessor [REMOVED]</TD></TR>
+<TR class='light'><TD class='list'><S>stream3</S></TD><TD class='list'>108</TD><TD class='list' style='vertical-align:top;'>3rd stream preprocessor (AVL nightmare) [REMOVED]</TD></TR>
+<TR class='dark'><TD class='list'><S>telnet_neg</S></TD><TD class='list'>109</TD><TD class='list' style='vertical-align:top;'>telnet option decoder [REMOVED]</TD></TR>
+<TR class='light'><TD class='list'><S>unidecode</S></TD><TD class='list'>110</TD><TD class='list' style='vertical-align:top;'>unicode decoder [REMOVED]</TD></TR>
+<TR class='dark'><TD class='list'>stream4</TD><TD class='list'>111</TD><TD class='list' style='vertical-align:top;'>Stream4 preprocessor</TD></TR>
+<TR class='light'><TD class='list'>arpspoof</TD><TD class='list'>112</TD><TD class='list' style='vertical-align:top;'>Arp Spoof detector</TD></TR>
+<TR class='dark'><TD class='list'>frag2</TD><TD class='list'>113</TD><TD class='list' style='vertical-align:top;'>2nd fragment preprocessor [REMOVED]</TD></TR>
+<TR class='light'><TD class='list'><S>fnord</S></TD><TD class='list'>114</TD><TD class='list' style='vertical-align:top;'>NOP detector [REMOVED]</TD></TR>
+<TR class='dark'><TD class='list'><S>asn1</S></TD><TD class='list'>115</TD><TD class='list' style='vertical-align:top;'>ASN.1 Validator [REMOVED]</TD></TR>
+<TR class='light'><TD class='list'>decode</TD><TD class='list'>116</TD><TD class='list' style='vertical-align:top;'>Snort Internal Decoder</TD></TR>
+<TR class='dark'><TD class='list'><S>scan2</S></TD><TD class='list'>117</TD><TD class='list' style='vertical-align:top;'>portscan2 [REMOVED]</TD></TR>
+<TR class='light'><TD class='list'><S>conversation</S></TD><TD class='list'>118</TD><TD class='list' style='vertical-align:top;'>conversation [REMOVED]</TD></TR>
+<TR class='dark'><TD class='list'>http inspect client</TD><TD class='list'>119</TD><TD class='list' style='vertical-align:top;'>HTTP Inspect</TD></TR>
+<TR class='light'><TD class='list'>http inspect anon server</TD><TD class='list'>120</TD><TD class='list' style='vertical-align:top;'>HTTP Inspect</TD></TR>
+<TR class='dark'><TD class='list'>flow portscan</TD><TD class='list'>121</TD><TD class='list' style='vertical-align:top;'>flow portscan</TD></TR>
+<TR class='light'><TD class='list'>sfportscan</TD><TD class='list'>122</TD><TD class='list' style='vertical-align:top;'>Dan Roelkers portscan</TD></TR>
+<TR class='dark'><TD class='list'>frag3</TD><TD class='list'>123</TD><TD class='list' style='vertical-align:top;'>Marty Roesch's ip frag reassembler</TD></TR>
+<TR class='light'><TD class='list'>smtp</TD><TD class='list'>124</TD><TD class='list' style='vertical-align:top;'>SMTP decoder/normalizer</TD></TR>
+<TR class='dark'><TD class='list'>ftp</TD><TD class='list'>125</TD><TD class='list' style='vertical-align:top;'>FTP decoder</TD></TR>
+<TR class='light'><TD class='list'>telnet</TD><TD class='list'>126</TD><TD class='list' style='vertical-align:top;'>telnet decoder/normalizer</TD></TR>
+<TR class='dark'><TD class='list'>isakmp</TD><TD class='list'>127</TD><TD class='list' style='vertical-align:top;'>ISAKMP</TD></TR>
+<TR class='light'><TD class='list'>ssh</TD><TD class='list'>128</TD><TD class='list' style='vertical-align:top;'>SSH</TD></TR>
+<TR class='dark'><TD class='list'>stream5</TD><TD class='list'>129</TD><TD class='list' style='vertical-align:top;'>Stream5</TD></TR>
+<TR class='light'><TD class='list'>dcerpc</TD><TD class='list'>130</TD><TD class='list' style='vertical-align:top;'>DCE/RPC</TD></TR>
+<TR class='dark'><TD class='list'>dns</TD><TD class='list'>131</TD><TD class='list' style='vertical-align:top;'>DNS</TD></TR>
+</TABLE>
+</CENTER>

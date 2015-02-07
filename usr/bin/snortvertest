@@ -1,0 +1,37 @@
+#!/usr/bin/perl
+
+#start snort version query
+open(MY_INPUT,"/usr/bin/snort -V 2>&1 |");
+while(<MY_INPUT>) {
+    chomp;
+    if (/Version\s+(.*)/) {
+       ($display_version, $sub1, $sub2, $sub3, $sub4) = split(/ /,$1);
+print "display_version : $display_version\n";
+print "sub1 : $sub1\n";
+print "sub2 : $sub2\n";
+print "sub3 : $sub3\n";
+print "sub4 : $sub4\n";
+       $snort_version = $display_version;
+print "snort_version : $snort_version\n";
+# ET bases snort rules on X.Y.Z versioning
+#       $snort_version =~ s/\.//g;
+       $display_version .= " $sub1 $sub2 $sub3 $sub4";
+print "display_version : $display_version\n";
+    }
+}
+close(MY_INPUT);
+# ET bases snort rules on X.Y.Z versioning
+# so split the version into separate fields 
+($ETver1, $ETver2, $ETver3, $ETver4) = split(/\./,$snort_version);
+print "ETver1 : $ETver1\n";
+print "ETver2 : $ETver2\n";
+print "ETver3 : $ETver3\n";
+print "ETver4 : $ETver4\n";
+# now put the version string together using only the first three fields
+$snort_version = join('.', $ETver1, $ETver2, $ETver3);
+print "Working with snort $display_version - [$snort_version]\n";
+#if ($snortsettings{'SUBSCRIBER'} eq 'on') {
+#    ${snort_version} = ${snort_version} . '_s';
+#    &write_log("We are a paying subscriber for the Sourcefile VRT rules sets\n");
+#}
+# end snort version query

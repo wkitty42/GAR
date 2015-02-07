@@ -1,0 +1,125 @@
+<P><FONT SIZE='3'><STRONG><U>GARTool v0.3a</U></STRONG></FONT></P>
+
+<P>This page allows you to disable, modify or enable SNORT rules by adding
+them to the OINKMaster control file. When OINKMaster processes rules sets
+updates, it will automatically disable, modify or enable the listed rules.
+This is desirable because the rule updates will overwrite any manual
+changes you have made to the rules.</P>
+<hr>
+<P><B>Usage:</B></P>
+
+<OL>
+<LI>To look up the SID for the rule you want to modify, enter some of the descriptive
+phrase in the search box and press the 'SEARCH' button. This is an EXACT MATCH search.</LI>
+
+<LI>Put the desired modification info in the editing box as shown in the example. You
+do not need to enter a comment if you do not want to, it is an option and a highly
+recommended one.</LI>
+
+<LI>Click on the 'Save Rules' button to save the entered lines. You <b>must</b>
+do this before clicking on any other buttons or you will loose your work!</LI>
+
+<LI>The new line(s) will be written to the config file and will appear in the display
+window.</LI>
+
+<LI>Once you have created all the modification rules you need, then click on the 'Run
+OINKMaster and Reload SNORT' button.</LI>
+
+<LI>After OINKMaster has been run, the sid-msg.map file will be updated with the current
+list of SIDs and rules.</LI>
+
+<LI>There is also a section where you can add your own SNORT rules to the local.rules file.
+As above, after entering all the rules, click the 'Save local.rules File' button to save your
+work. Then click on the 'Run OINKMaster and Reload SNORT' button to activate your rules.</LI>
+
+<LI>Once again, after OINKMaster has been run, the sid-msg.map file will be updated with
+the current list of SIDs and rules.</LI>
+</OL>
+
+<P><B>WARNING:</B> There is no error checking for validating the structure of any rules. The
+creation of rules in local.rules will likely require you to perform some research at
+the <a href="http://snort.org/" target="_BLANK">SNORT website</a>.</P>
+
+<P>Please go to <a href="http://community.smoothwall.org/forum/viewtopic.php?t=25041" target="_BLANK">the support thread</a> in
+the SmoothWall3 Homebrew forum for any help needed with this mod.</P>
+<hr>
+<P><B>Details:</B></P>
+
+<P><b><u>disablesid:</u></b></P>
+
+<P>SIDs to disable after each update.<BR>
+Will simply place a '#' in front of the specified SID.
+Multi-line rules will have a '#' put in front of all lines.<BR>
+<BR>
+Syntax:&nbsp;&nbsp;disablesid SID<br>
+or:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disablesid SID1, SID2, SID3, ...<BR>
+<BR>
+It's a good idea to also add comment about why you disabled the sid.<br>
+<br>
+disablesid 1324&nbsp;&nbsp;&nbsp;&nbsp;# 20020101: disabled this SID just because I can.
+</P>
+<br>
+<P><b><u>enablesid:</u></b></P>
+
+<P>SIDs to enable after each update.<BR>
+Will simply remove all the leading '#' for a specified SID.
+Multi-line rules will have the leading '#' for all lines removed.
+These will be processed after all the modifysid and disablesid
+statements. Using 'enablesid' on a rule that is not disabled is a
+NOOP.<BR>
+<BR>
+Syntax:&nbsp;&nbsp;enablesid SID<br>
+or:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enablesid SID1, SID2, SID3, ...<BR>
+<BR>
+It's a good idea to also add comment about why you enabled the sid.<br>
+<br>
+enablesid 1324&nbsp;&nbsp;&nbsp;&nbsp;# 20020101: enabled this SID just because I can.
+</P>
+<br>
+<P><b><u>modifysid:</u></b></P>
+
+<P>SIDs to modify after each update (only for the skilled/stupid/brave).<BR>
+<BR>
+<b>Don't use this unless you have to! There is nothing that stops you from
+modifying rules in such ways that they become invalid or generally
+break things. <u>You have been warned.</u></b><BR>
+<BR>
+If you just want to disable SIDs, please skip this section and have a
+look at the "disablesid" keyword above.<BR>
+<BR>
+You may specify multiple modifysid directives for the same SID (they
+will be processed in order of appearance), and you may also specify a
+list of SIDs on which the substitution should be applied.
+If the argument is in the form something.something it is regarded
+as a filename and the substitution will apply on all rules in that
+file. The wildcard ("*") can be used to apply the substitution on all
+rules regardless of the SID or file. Please avoid using #comments
+at the end of modifysid lines, they may confuse the parser in some
+situations.<br>
+<br>
+Syntax:
+&nbsp;&nbsp;modifysid SID "replacethis" | "withthis"<br>
+or:<br>
+&nbsp;&nbsp;modifysid SID1, SID2, SID3, ... "replacethis" | "withthis"<br>
+or:<br>
+&nbsp;&nbsp;modifysid file "replacethis" | "withthis"<br>
+or:<br>
+&nbsp;&nbsp;modifysid * "replacethis" | "withthis"<br>
+<br>
+The strings within the quotes will simply be passed to a
+s/replacethis/withthis/ statement in Perl, so they must be valid
+regular expressions. The strings are case-sensitive and only the first
+occurrence will be replaced. If there are multiple occurrences you
+want to replace, simply repeat the same modifysid line.<BR>
+<BR>
+If you specify a modifysid statement for a multi-line rule, Oinkmaster
+will first translate the rule into a single-line version and then
+perform the substitution, so you don't have to care about the trailing
+backslashes and newlines.<BR>
+<BR>
+If you use variables in the substitution expression, it is strongly
+recommended to always specify them like ${varname} instead of
+$varname (like ${1} instead of $1 for example) to avoid parsing
+confusion in some situations. Note that modifysid statements
+will process both active and inactive (disabled) rules.<BR>
+</P>

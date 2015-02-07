@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# 1440 minutes in a day... -g is in minutes
+# 1 hour
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 1 hour stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 01hours.html -g 60 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 2 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 2 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 02hours.html -g 120 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 3 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 3 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 03hours.html -g 180 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 4 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 4 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 04hours.html -g 240 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 6 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 6 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 06hours.html -g 360 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 8 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 8 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 08hours.html -g 480 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 10 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 10 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 10hours.html -g 600 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 12 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 12 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 12hours.html -g 720 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 14 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 14 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 14hours.html -g 840 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 16 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 16 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 16hours.html -g 960 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 18 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 18 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 18hours.html -g 1080 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 20 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 20 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 20hours.html -g 1200 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err
+
+# 1440 minutes in a day... -g is in minutes
+# 22 hours
+/usr/bin/logger -f /var/smoothwall/mods/GAR/var/log/snortstats.log -t cron.hourly "snortstats generating 22 hours stats"
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 22hours.html -g 1320 2>> /var/smoothwall/mods/GAR/var/log/snortstats.err

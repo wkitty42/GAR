@@ -1,0 +1,208 @@
+#!/usr/bin/perl
+#
+# SmoothWall CGIs
+#
+# This code is distributed under the terms of the GPL
+#
+# (c) The SmoothWall Team
+
+use lib "/usr/lib/smoothwall";
+use header qw( :standard );
+
+use Socket;
+use POSIX;
+
+@months = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
+
+sub indexArray($@)
+{
+    my $s=shift;
+    $_ eq $s && return @_ while $_=pop;
+    -1;
+}
+
+if ($ENV{'QUERY_STRING'}) {
+    $_ = $ENV{'QUERY_STRING'};
+    my $action;
+    $_ =~ s/\+/ /g;
+    my @temp = split(/\&/);
+    foreach $_ (@temp) {
+	($var, $val) = split(/\=/);
+	if ($var eq 'track') { 
+	    $tracker_ip = $val;
+	} else {
+	    die "bad query string";
+	}
+    }
+}
+
+my $tracker_file = "${swroot}/guardian/$tracker_ip";
+my $hostname;
+
+&showhttpheaders();
+
+&openpage($tr{'gartracker title'}." - $tracker_ip", 1, '', 'help');
+
+&openbigbox();
+
+print <<END
+    <table class='box'>
+	<tr>
+	    <td class='helpheader'>
+		    <a href="javascript:window.close();"><img src="/ui/img/help.footer.png" alt=$tr{'gartracker title'}." - click to close window"></a>
+	    </td>
+	</tr>
+END
+;
+if (-e $tracker_file) {
+    open (FILE, "$tracker_file");
+    @current = <FILE>;
+    close (FILE);
+
+    $hostname = gethostbyaddr(inet_aton($tracker_ip), AF_INET);
+    if (!$hostname) { $hostname = $tr{'lookup failed'}; }
+    $count = @current;
+    ($tr1,$last_expire,$tr2) = split(' \*\* ',$current[$count-1]);
+    if ($count le 1) {
+	($tr1,$go_date,$go_time) = split(/\s+/, $last_expire);
+    } else {
+	($tr1,$tr2,$go_date,$go_time) = split(/\s+/, $last_expire);
+    }
+    ($go_day,$go_month,$go_year) = split(/\-/,$go_date);
+    ($go_hour,$go_minute,$go_second) = split(/:/,$go_time);
+    $go_month_num = indexArray($go_month,@months);
+    $expire_time = mktime($go_second,$go_minute,$go_hour,$go_day,$go_month_num,$go_year - 1900,0,0);
+    $now_time = mktime(localtime);
+    $remaintime = ($expire_time - $now_time);
+    $rt_days_int = int($remaintime/(86400));
+    $rt_days_frac = (($remaintime/(86400))-$rt_days_int)*(86400);
+    $rt_hours_int = int($rt_days_frac/(3600));
+    $rt_hours_frac = (($rt_days_frac/(3600))-$rt_hours_int)*(3600);
+    $rt_mins_int = int($rt_hours_frac/60);
+    $rt_mins_frac = (($rt_hours_frac/60)-$rt_mins_int)*60;
+    $rt_secs_int = int($rt_mins_frac);
+    $tr_str = $rt_secs_int . "s";
+    if ($rt_mins_int gt 0) { $tr_str = $rt_mins_int . "m " . $rt_secs_int . "s"; }
+    if ($rt_hours_int gt 0) { $tr_str = $rt_hours_int . "h " . $rt_mins_int . "m " . $rt_secs_int . "s"; }
+    if ($rt_days_int gt 0) { $tr_str = $rt_days_int . "d " . $rt_hours_int . "h " . $rt_mins_int . "m " . $rt_secs_int . "s"; }
+
+    print <<END
+	<tr>
+	    <td style='text-align: center; font-weight: bold; font-size: 12px;'>
+		$tr{'gartracker ip'} $tracker_ip
+	    </td>
+	</tr>
+	<tr>
+	    <td style='text-align: center; font-weight: bold; font-size: 12px;'>
+		$tr{'gartracker host'} $hostname
+	    </td>
+	</tr>
+	<tr>
+	    <td style='text-align: center; font-weight: bold; font-size: 12px;'>
+		$tr{'gartracker block expires'} $go_date $go_time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($tr_str)
+	    </td>
+	</tr>
+	<tr>
+	    <td style='text-align: justify; font-size: 11px;'>
+		<table class='list' cellpadding='4'>
+		    <tr>
+			<th class='list' style='width: 20%'>$tr{'gartracker activity date'}</th>
+			<th class='list' style='width: 20%'>$tr{'gartracker expire date'}</th>
+			<th class='list' style='width: 60%'>$tr{'gartracker rule violation'}</th>
+		    </tr>
+END
+    ;
+    my $line;
+    my ($record,$expire,$rule);
+    foreach $line (@current){
+	chomp $line;
+        my ($record,$expire,$rule);
+        ($record,$expire,$rule) = split(' \*\* ',$line);
+        $record =~ /(.*): (.*)/;
+        $record = $2;
+        $expire =~ /(.*): (.*)/;
+        $expire = $2;
+    
+    print <<END
+			<tr class='list'>
+			    <td class='list' style='text-align: left; white-space: nowrap;'>$record</td>
+			    <td class='list' style='text-align: left; white-space: nowrap;'>$expire</td>
+			    <td class='list' style='text-align: left; white-space: nowrap;'>$rule</td>
+			</tr>
+END
+        ;
+    }
+    print <<END
+			<tr class='list'>
+			    <th class='list' style='text-align: left;'>&nbsp;</th>
+			    <th class='list' style='text-align: left;'>&nbsp;</th>
+			    <th class='list' style='text-align: left;'>&nbsp;</th>
+			</tr>
+		</table>
+	    </td>
+	</tr>
+	<tr>
+	    <td>
+END
+    ;
+    &openbox("WHOIS $tracker_ip");
+    print "<div style='height: 150px; width: 100%; overflow: auto;'><pre style='font-size: 11px;'>";
+    system('/usr/bin/whois', '--nocgi', $tracker_ip);
+    print "</pre></div>";
+    &closebox();
+    print <<END
+	    </td>
+	</tr>
+END
+    ;
+} else {
+    print <<END
+	<tr>
+	    <td style='text-align: justify; font-size: 11px;'>
+		<table cellpadding='4' style='border-collapse: collapse; border: 0px; width: 100%;'>
+		    <tr>
+			<td style='text-align: left; width: 10%;'>&nbsp;</td>
+			<td style='text-align: left; width: 80%;'>&nbsp;</td>
+			<td style='text-align: left; width: 10%;'>&nbsp;</td>
+		    </tr>
+		    <tr>
+			<td style='text-align: left; width: 10%;'>&nbsp;</td>
+			<td style='text-align: center; width: 80%; white-space: nowrap; font-weight: bold; font-size: 15px;'>
+			    Tracking file for $tracker_ip not found!
+			    <br/><br/>
+			</td>
+			<td style='text-align: left; width: 10%;'>&nbsp;</td>
+		    </tr>
+		    <tr>
+			<td style='text-align: left; width: 10%;'>&nbsp;</td>
+			<td style='text-align: center; width: 80%; white-space: nowrap; font-weight: normal; font-size: 12px;'>
+			    Could the blocking have expired?<br/>
+			    Maybe the IP was switched from Guardian to Manual?
+			</td>
+			<td style='text-align: left; width: 10%;'>&nbsp;</td>
+		    </tr>
+		    <tr>
+			<td style='text-align: left; width: 10%;'>&nbsp;</td>
+			<td style='text-align: left; width: 80%;'>&nbsp;</td>
+			<td style='text-align: left; width: 10%;'>&nbsp;</td>
+		    </tr>
+		</table>
+	    </td>
+	</tr>
+END
+    ;
+}
+print <<END
+	<tr>
+	    <td class='helpfooter'>
+		<a href="javascript:window.close();"><img src="/ui/img/help.footer.png"  alt=$tr{'gartracker title'}." - click to close window"></a>
+	    </td>
+	</tr>
+    </table>
+END
+;
+
+&closebigbox();
+
+&closepage('blank');
+

@@ -1,0 +1,2 @@
+# get new ET rules at 1:42AM, once a day, every day
+42 1 * * * root /var/smoothwall/mods/GAR/usr/bin/update-ETrules.pl >/dev/null

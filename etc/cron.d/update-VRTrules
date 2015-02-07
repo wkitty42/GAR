@@ -1,0 +1,2 @@
+# get new VRT rules a 4:42AM on Sundays
+42 4 * * 0 root /var/smoothwall/mods/GAR/usr/bin/update-VRTrules.pl >/dev/null

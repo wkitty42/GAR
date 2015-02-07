@@ -1,0 +1,3 @@
+IP => <strong>Internet Protocol (address)</strong> Each host on an IP network is assigned a numerical address in the form 1.2.3.4. These addresses can either be external (on the wider Internet) or local (on the local network).
+GAR => Guardian Active Response: An automated tool for reactive action to block unwanted accesses or traffic trying to enter your network.
+SNORT => SNORT is an Intrusion Detection System. It is used to study the traffic flowing into and out of your network based on rules. If SNORT sees traffic that matches a rule, it will log an alert for later use.

@@ -1,0 +1,9 @@
+/var/smoothwall/mods/GAR/var/log/GAR.log {
+    weekly
+    rotate 8
+    copytruncate
+    compress
+    notifempty
+    missingok
+}
+

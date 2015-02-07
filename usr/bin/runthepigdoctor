@@ -1,0 +1,13 @@
+# 1440 minutes in a day... -g is in minutes
+# 1 day
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 01days.html -g 1440
+# 7 days
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 07days.html -g 10080
+# 14 days
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 14days.html -g 20160
+# 21 days
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 21days.html -g 30240
+# 30 days
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h 30days.html -g 43200
+# everything in the file
+/var/smoothwall/mods/GAR/usr/bin/thepigdoktah.pl -r /var/log/snort/snort.csv -w /var/smoothwall/mods/GAR/httpd/html/snortstats -h alldays.html

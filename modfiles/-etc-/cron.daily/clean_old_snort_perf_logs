@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#find all rules_stats.log.xxxxxxxxxx files in /var/log/snort older than 30 days, and delete them
+/usr/bin/find /var/log/snort -regextype grep -regex ".*/rules_stats.log.[0-9]{10}" -type f -mtime +29 | xargs rm -f
+#find all preprocs_stats.log.xxxxxxxxxx files in /var/log/snort older than 30 days, and delete them
+/usr/bin/find /var/log/snort -regextype grep -regex ".*/preprocs_stats.log.[0-9]{10}" -type f -mtime +29 | xargs rm -f

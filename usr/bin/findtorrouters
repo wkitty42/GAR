@@ -1,0 +1,4 @@
+#grep -hiE "tor .* \(not exit\)" /var/smoothwall/snort/rules/*.rules | cut -d ";" -f 6-7 | grep -iE "sid" > tor_routers
+grep -hiE "tor .* \(not exit\)" /var/smoothwall/snort/rules/sid-msg.map | cut -d " " -f 1 | /var/smoothwall/mods/GAR/usr/bin/addtorrouter > /var/smoothwall/mods/GAR/etc/tor_routers.conf
+chown nobody:nobody /var/smoothwall/mods/GAR/etc/tor_routers.conf
+chmod 755 /var/smoothwall/mods/GAR/etc/tor_routers.conf

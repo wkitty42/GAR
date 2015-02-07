@@ -1,0 +1,111 @@
+4.2.2.4,vnsc-pri-dsl.genuity.net,Level 3 DNS server,on
+4.2.2.6,vnsc-lc-dsl.genuity.net,Level 3 DNS server,on
+8.8.8.8,google-public-dns-a.google.com,Google DNS server,on
+8.8.4.4,google-public-dns-b.google.com,Google DNS server,on
+12.31.165.82,xenon.oftc.net,irc.oftc.net,on
+23.0.0.0/12,23.0.0.0/12,Akami,on
+46.165.208.0/21,46.165.208.0/21,Avast! (leaseweb germany),on
+50.22.0.0/15,50.22.0.0/15,softlayer,on
+62.166.198.202,idefix.wisa.be,svn.freepascal.org,on
+64.62.190.36,zombie-scan.oftc.net,irc.oftc.net,on
+65.37.54.23,65-37-54-23.nrp4fair.roc.ny.frontiernet.net,fidonet - nancy backus,on
+65.52.0.0/14,65.52.0.0/14,microsoft update,on
+66.35.45.158,66.35.45.158,isc.sans ???,on
+66.0.249.7,mail.shipcom.com,mail.shipcom.com,on
+66.184.117.12,oxygen.properkernel.com,irc.oftc.net,on
+66.244.241.250,66.244.241.250-GlchTik.nethop.net,fidonet - 1:229/426 - ole juul,on
+66.249.64.0/19,66.249.64.0/19,Google IP address space,on
+68.142.64.0/18,68.142.64.0/18,Avast! (limelight networks),on
+68.177.102.33,forums.snort.org,snort.org forums,on
+69.11.189.218,mail.filegate.net,fidonet - 1:2611/38 - janis kracht,on
+69.41.165.115,haystack.ivo.nu,dnet uplink,on
+70.79.79.241,S010600121701d6f7.vc.shawcable.net,fidonet - 1:153/7715 - dallas hinton,on
+71.191.147.210,bitbucket.trojanedbinaries.com,trojanedbinaries - eoin miller,on
+72.32.146.136,osmosis.oftc.net,irc.oftc.net,on
+72.246.0.0/15,72.246.0.0/15,Akami,on
+74.86.229.28,sfmirror.softlayer.com,sourceforge softlayer mirror,on
+74.125.0.0/16,74.125.0.0/16,Google IP address space,on
+75.125.225.173,173.bobsmortuary.com,emergingthreats,on
+75.151.179.89,75-151-179-89-Philadelphia.hfc.comcastbusiness.net,www.celestrak.com,on
+77.234.40.0/24,77.234.40.0/24,Avast!,on
+77.234.41.0/24,77.234.41.0/24,Avast!,on
+77.234.42.0/24,77.234.42.0/24,Avast!,on
+77.234.43.0/24,77.234.43.0/24,Avast!,on
+80.123.225.56,mailer.lazarus.freepascal.org,lazarus forums,on
+89.16.165.114,xen1.smoothwall.net,smoothwall forums,on
+89.16.165.122,89-16-165-122.no-reverse-dns-set.bytemark.co.uk,www.smoothwall.org,on
+91.44.59.20,p5B2C3B14.dip.t-dialin.net,fidonet - 2:2448/400 - tobias burchhardt,on
+97.64.187.17,mail-smtp01.mcomdc.com,mediacom mail server,on
+97.64.187.18,mail-smtp02.mcomdc.com,mediacom mail server,on
+97.64.187.19,mail-smtp03.mcomdc.com,mediacom mail server,on
+97.64.187.20,mail-smtp04.mcomdc.com,mediacom mail server,on
+97.64.187.22,mail-smtp06.mcomdc.com,mediacom mail server,on
+97.64.187.23,mail-smtp07.mcomdc.com,mediacom mail server,on
+97.64.187.24,mail-smtp08.mcomdc.com,mediacom mail server,on
+108.223.123.25,108-223-123-25.lightspeed.nworla.sbcglobal.net,fidonet - 1:3828/7 - roger nelson,on
+128.30.52.70,krusty.w3.org,w3c's validator,on
+128.30.52.71,krustofski.w3.org,w3c's validator,on
+162.39.147.50,pop.windstream.net,pop.windstream.net,on
+162.39.147.58,smtp.windstream.net,smtp.windstream.net,on
+162.39.147.65,webmail-classic.windstream.net,windstream.net webmail,on
+166.102.165.125,smtp.windstream.net,smtp.windstream.net,on
+173.14.206.213,173-14-206-213-huntsville.hfc.comcastbusiness.net,fidonet - 1:396/45 - marc lewis,on
+173.188.251.197,h197.251.188.173.static.ip.windstream.net,FTI Cab Stand,on
+173.224.160.0/20,173.224.160.0/20,ROXIO,on
+192.168.42.1,perseus,SW-GREEN,on
+192.168.69.1,perseus-o,SW-ORANGE,on
+192.168.73.1,perseus-p,SW-PURPLE,on
+199.43.0.146,whois.arin.net,whois.arin.net,on
+203.26.72.8,203.26.72.8,dnet uplink,on
+204.152.189.144,proxy1.rwc.ca.us.proxy.distributed.net,dnet uplink,on
+204.152.189.166,proxy2.rwc.ca.us.proxy.distributed.net,dnet uplink,on
+204.152.189.173,proxy3.rwc.ca.us.proxy.distributed.net,dnet uplink,on
+206.12.19.242,irc.geo.oftc.net,irc.oftc.net,on
+207.69.189.201,smtpauth1.earthlink.net,smtpauth.earthlink.net,on
+207.69.189.202,smtpauth2.earthlink.net,smtpauth.earthlink.net,on
+207.69.189.203,smtpauth3.earthlink.net,smtpauth.earthlink.net,on
+207.69.189.204,smtpauth4.earthlink.net,smtpauth.earthlink.net,on
+207.69.189.205,smtpauth5.earthlink.net,smtpauth.earthlink.net,on
+207.69.189.206,smtpauth6.earthlink.net,smtpauth.earthlink.net,on
+207.69.189.207,smtpauth7.earthlink.net,smtpauth.earthlink.net,on
+207.69.189.208,smtpauth8.earthlink.net,smtpauth.earthlink.net,on
+207.69.189.209,smtpauth9.earthlink.net,smtpauth.earthlink.net,on
+207.69.189.210,smtpauth10.earthlink.net,smtpauth.earthlink.net,on
+207.192.72.99,tesla.oftc.net,irc.oftc.net,on
+208.43.87.2,www.bleepingcomputer.com,www.bleepingcomputer.com,on
+208.44.23.0/24,208.44.23.0/24,Apple (Akamai),on
+209.85.157.91,yu-in-f91.1e100.net,www.youtube.com,on
+209.85.157.93,yu-in-f93.1e100.net,www.youtube.com,on
+209.85.157.136,yu-in-f136.1e100.net,www.youtube.com,on
+209.85.157.190,yu-in-f190.1e100.net,www.youtube.com,on
+209.86.93.201,pop00.earthlink.net,mail.earthlink.net,on
+209.86.93.202,pop01.earthlink.net,mail.earthlink.net,on
+209.86.93.203,pop02.earthlink.net,mail.earthlink.net,on
+209.86.93.204,pop03.earthlink.net,mail.earthlink.net,on
+209.86.93.205,pop04.earthlink.net,mail.earthlink.net,on
+209.86.93.206,pop05.earthlink.net,mail.earthlink.net,on
+209.86.93.207,pop06.earthlink.net,mail.earthlink.net,on
+209.86.93.208,pop07.earthlink.net,mail.earthlink.net,on
+209.86.93.209,pop08.earthlink.net,mail.earthlink.net,on
+209.86.93.210,pop09.earthlink.net,mail.earthlink.net,on
+209.86.93.211,pop10.earthlink.net,mail.earthlink.net,on
+216.154.195.61,news.cesmail.net,news.spamcop.net,on
+141.219.155.203,nc.concam.mtu.edu,APOD,on
+140.211.166.64,chiral.oftc.net,irc.oftc.net,on
+140.90.128.71,tgftp.nws.noaa.gov,national weather service,on
+205.156.51.233,205.156.51.233,national weather service,on
+209.244.0.3,resolver1.level3.net,Level3 DNS server,on
+209.244.0.4,resolver2.level3.net,Level3 DNS server,on
+91.189.88.0/21,91.189.88.0/21,Canocial - ubuntu,on
+24.74.103.142,cpe-024-074-103-142.carolina.res.rr.com,fidonet - 1:3634/26 - william meadows,on
+71.15.87.129,71-15-87-129.dhcp.gnvl.sc.charter.com,fidonet - 1:123/500 - ross cassell,on
+199.96.82.195,199.96.82.195.rdns.continuumdatacenters.com,continuum datacenter time sync,on
+199.96.82.197,199.96.82.197.rdns.continuumdatacenters.com,continuum datacenter time sync,on
+71.95.196.36,71-95-196-36.static.mtpk.ca.charter.com,cvs.synchro.net,on
+70.226.196.1,ppp-70-226-196-1.dsl.spfdil.ameritech.net,fidonet - dave drum,on
+23.64.0.0/14,23.64.0.0/14,Akami,on
+23.32.0.0/11,23.32.0.0/11,Akami,on
+173.30.247.34,173-30-247-34.client.mchsi.com,richard webb - nf5b - 2 - email account on wpusa,on
+173.20.174.45,173-20-174-45.client.mchsi.com,richard webb - nf5b - 1 - email account on wpusa,on
+85.222.228.11,vps46799.freepascal.org,FPC SVN,on
+192.168.42.27,shadow.wpusa,let shadow through,on

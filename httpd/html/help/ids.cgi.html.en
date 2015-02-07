@@ -1,0 +1,69 @@
+<P><FONT SIZE='3'><B><U>Intrusion Detection System</U></B></FONT></P>
+
+<P>This page is used to activate or deactivate the IDS (Intrusion Detection
+System) mechanism. To <B>Enable</B> the IDS, place a checkmark in the box 
+and click <B>Save</B>. To <B>Disable</B> the IDS, remove the checkmark from
+the box and click <B>Save</B>. Logs are available from the IDS log viewer on
+the <B>Logs</B> page.</P>
+
+<P>SmoothWall Express is no longer shipped with any rules. However, you have
+two options available to you to acquire snort rules sets.
+
+    <OL style='list-style-type:upper-alpha'>
+	<LI>To use the Sourcefire VRT Rules sets:
+	    <UL>
+		<LI>You must register at <a href="http://www.snort.org/">www.snort.org</a>.
+		    Registering allows you access to the Sourcefire VRT Rules sets that
+		    are 30 days old.
+		</LI>
+		<LI>Get an 'Oink' code.</LI>
+		<LI>Enter the 'Oink' code in the 'Oink code:' box under <B>Rules retrieval</B>
+		    in the <B>Sourcefire VRT Rules</B> section.
+		</LI>
+		<LI>Put a check in the "Enabled" box for the Sourcefire VRT Rules.</LI>
+		<LI>If you want the system to automatically update the Sourcefire VRT
+		    Rules sets, place a check mark in the Autoupdate VRT rules box.
+		    The Sourcefire VRT Rules sets are updated once a week on Sunday
+		    mornings.
+		</LI>
+		<LI>Press the <B>Save</B> button to store the configuration settings.</LI>
+	    </UL>
+	    <BR /><B>NOTE:</B> You may choose to be a Sourcefire VRT Paying Subscriber at snort.org.
+	    Being a Sourcefire VRT Paying Subscriber allows you access to the newest
+	    updated rules sets as soon as they are available. You still need an 'Oink'
+	    code plus you should put a check in the "Paid Subscriber" box.
+	    <BR /><BR />
+	</LI>
+	<BR />
+	<LI>To use the EmergingThreats Rules sets:
+	    <UL>
+		<LI>You do not have to register to use these rules.</LI>
+		<LI>Simply put a check in the "Enabled" box for the
+		    EmergingThreats Rules.
+		</LI>
+		<LI>If you want the system to automatically update the EmergingThreats
+		    Rules sets, place a check mark in the Autoupdate ET rules box.
+		    The EmergingThreats Rules sets are updated four times a day at
+		    00:42, 06:42, 12:42, and 18:42 local time.
+		</LI>
+		<LI>Press the <B>Save</B> button to store the configuration settings.</LI>
+	    </UL>
+	</LI>
+    </OL>
+</P>
+
+<P>Pressing the <B>Save and update rules</B> button stores the configuration
+settings and attempts to fetch a fresh set of snort rules. <I>Note that this
+may take a while (possibly 5 to 10 minutes) to complete.</I> Snort will be
+restarted after the update processes complete.</P>
+
+<P>If you are using the Sourcefire VRT Rules sets, it is best if you do not
+share the same Oink code between different systems.</P>
+
+<P><B>Do not keep pressing the <B>Save and update rules</B> button! Doing so
+could cause your system to be banned from the rules sites!</B></P>
+
+<P><B>Do not switch away from the IDS page while running the update processes.
+Doing so will terminate the updates and you could end up with an invalid
+configuration.</B></P>
+
