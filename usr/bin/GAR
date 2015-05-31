@@ -654,6 +654,28 @@ sub load_saved {
 	}
 }
 
+# Function getValue() opens the specified file, reads the single line in it, and closes the
+#   file. If the open() fails, the default value is "" (NULL string).
+sub getValue {
+  my ($file) = @_;
+
+  # If the open fails, the var will be empty (NULL string).
+  my $value = "";
+
+  # Give it a go.
+  if (open(FILE, "<$file")) {
+    # There is one line; it has no terminating NL.
+    $value = <FILE>;
+    close FILE;
+    # This chomp isn't needed for this specific purpose, but is here to make the
+    #   function a little more generic.
+    chomp $value;
+  }
+
+  # Return the value even if nothing was read.
+  return $value;
+}
+
 sub load_config {
 	if (${opt_c} eq "") {
     ${opt_c} = "${defaultconfig_filename}";
@@ -661,15 +683,43 @@ sub load_config {
 	if (! -e ${opt_c}) {
     die ("LOAD_CONFIG: Config file ${opt_c} does not exist!");
   }
+  
+  ##### start of new configs being read from SWE maintained files in RED directory #####
+  my $sweRed = "/var/smoothwall/red";
+  
+  # File 'active' exists only when RED is up; that is, PPP is up and running, dhcpcd got an
+  #   address, or RED is STATIC. If PPP is down or dhcpcd lost the lease, the files are emptied
+  #   and 'active' is deleted. But the rest of the files should always exist, empty or not.
+  
+  if (-f "$sweRed/active")
+  {
+    # fetch the addresses
+    $interface = &getValue("$sweRed/iface");
+    $host_ip_address = &getValue("$sweRed/local-ipaddress");
+    $gateway_address = &getValue("$sweRed/remote-ipaddress");
+#    $DNS1 = &getValue("$sweRed/dns1");
+#    $DNS2 = &getValue("$sweRed/dns2");
+    $host_ip_netmask = &getValue("$sweRed/dhcp-netmask");
+
+    # Process the data, but first check to see each value is not "" (empty).
+  }
+    else
+  {
+    # Do something to fail gracefully. 'die' can cause the UI to not display correctly,
+    #   or at all, when used in a .cgi script.
+  }
+
+  ##### end of new config reading #####
+
 	open (CONF, ${opt_c}) or die ("LOAD_CONFIG: Cannot read the config file ${opt_c}, $!");
 	while (<CONF>) {
 		chomp;
 		next if (/^\s*$/);  #skip blank lines
 		next if (/^#/);     # skip comment lines
 		if (/^LogFile\s+(.*)/i)         {${logfile} = $1;}
-		if (/^Interface\s+(.*)/i)       {${interface} = $1;}
-		if (/^HostIpAddr\s+(.*)/i)      {${host_ip_address} = $1;}
-		if (/^HostGatewayByte\s+(.*)/i) {${host_gateway_byte} = $1;}
+#		if (/^Interface\s+(.*)/i)       {${interface} = $1;}
+#		if (/^HostIpAddr\s+(.*)/i)      {${host_ip_address} = $1;}
+#		if (/^HostGatewayByte\s+(.*)/i) {${host_gateway_byte} = $1;}
 		if (/^AlertFile\s+(.*)/i)       {${alert_file} = $1;}
 		if (/^IgnoreFile\s+(.*)/i)      {${GARignore_file} = $1;}
 		if (/^TargetFile\s+(.*)/i)      {${GARtarget_file} = $1;}
@@ -713,15 +763,23 @@ sub load_config {
 	&report_config;
 }
 
+sub addrtoint { return( unpack( "N", pack( "C4", split( /[.]/,$_[0] ) ) ) ) };
+sub inttoaddr { return( join( ".", unpack( "C4", pack( "N", $_[0] ) ) ) ) };
+
 sub set_other_addresses {
-	${network_address} = ${host_ip_address};
-	${network_address} =~ s/\d+$/0/;
-	if (defined ${host_gateway_byte}) {
-		${gateway_address} = ${host_ip_address};
-		${gateway_address} =~ s/\d+$/${host_gateway_byte}/;
-	}
-	${broadcast_address} = ${host_ip_address};
-	${broadcast_address} =~ s/\d+$/255/;
+#	${network_address} = ${host_ip_address};
+#	${network_address} =~ s/\d+$/0/;
+#	if (defined ${host_gateway_byte}) {
+#		${gateway_address} = ${host_ip_address};
+#		${gateway_address} =~ s/\d+$/${host_gateway_byte}/;
+#	}
+#	${broadcast_address} = ${host_ip_address};
+#	${broadcast_address} =~ s/\d+$/255/;
+
+  ${network_address_int} = addrtoint(${host_ip_address}) & addrtoint(${host_ip_netmask});
+  ${broadcast_address_int} = $network_address_int | ~addrtoint(${host_ip_netmask});
+  ${network_address} = inttoaddr($network_address_int);
+  ${broadcast_address} = inttoaddr($broadcast_address_int);
 }
 
 sub validate_config {
@@ -758,9 +816,9 @@ sub validate_config {
 		&write_log (1,"I need a good host ip address.");
 		die;
 	}
-	if ((${host_gateway_byte} eq "") && (index(${interface},"ppp") == -1)) {
-		&write_log (2,"Warning! HostGatewayByte is undefined. Gateway will not be in ignore list.");
-	}
+#  if ((${host_gateway_byte} eq "") && (index(${interface},"ppp") == -1)) {
+#    &write_log (2,"Warning! HostGatewayByte is undefined. Gateway will not be in ignore list.");
+#  }
 	if (${iptables_up} == "no") {
 		&write_log (4,"Running GAR.up");
 		system ("${GAR_Home_dir}/etc/rc.d/rc.GAR.up");
@@ -817,9 +875,10 @@ sub report_config {
 	&write_log (7,"Logfile         : ${logfile}");
 	&write_log (7,"Interface       : ${interface}");
 	&write_log (7,"Host IP         : ${host_ip_address}");
-	if (defined ${host_gateway_byte}) {
-		&write_log (7,"Host GW Byte    : ${host_gateway_byte}");
-	}
+#	if (defined ${host_gateway_byte}) {
+#		&write_log (7,"Host GW Byte    : ${host_gateway_byte}");
+#	}
+	&write_log (7,"Host IP Netmask : ${host_ip_netmask}");
 	&write_log (7,"Network Address : ${network_address}");
 	&write_log (7,"Gateway Address : ${gateway_address}");
 	&write_log (7,"BCast Address   : ${broadcast_address}");
