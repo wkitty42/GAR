@@ -223,7 +223,7 @@ if ($GAR_Settings{'ACTION'} eq $tr{'save'} || $GAR_Settings{'ACTION'} eq $tr{'ga
 	$GAR_Settings{'GUARD_STATE'} = 'on';
 	&log($tr{'gar is being started'});
 	&writehash("${GAR_Settings_file}", \%GAR_Settings);
-	${success} = message('guardianstart');
+	${success} = message('GARstart');
 	if (not defined ${success}) {
 	    ${errormessage} = $tr{'smoothd failure'}; 
 	}
@@ -237,7 +237,7 @@ if ($GAR_Settings{'ACTION'} eq $tr{'save'} || $GAR_Settings{'ACTION'} eq $tr{'ga
 	$GAR_Settings{'GUARD_STATE'} = 'off';
 	&log($tr{'gar is being terminated'});
 	&writehash("${GAR_Settings_file}", \%GAR_Settings);
-	${success} = message('guardianstop');
+	${success} = message('GARstop');
 	if (not defined ${success}) {
 	    ${errormessage} = $tr{'smoothd failure'}; 
 	}
