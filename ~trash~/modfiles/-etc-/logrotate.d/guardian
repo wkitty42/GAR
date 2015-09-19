@@ -1,8 +1,0 @@
-/var/log/guardian/guardian.log {
-    weekly
-    rotate 8
-    copytruncate
-    compress
-    notifempty
-    missingok
-}

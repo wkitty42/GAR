@@ -1,5 +1,0 @@
-AuthName "Restricted"
-AuthType Basic
-AuthUserFile /var/smoothwall/auth/users
-
-require valid-user

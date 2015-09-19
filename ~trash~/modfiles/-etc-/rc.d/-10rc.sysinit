@@ -1,4 +1,0 @@
-#!/bin/sh
-logger -t guardian "Starting GAR (if enabled)"
-echo "Starting GAR (if enabled)"
-/usr/bin/smoothcom guardianrestart
