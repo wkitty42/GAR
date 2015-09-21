@@ -28,19 +28,19 @@ if (-e "/usr/lib/smoothd/sysguardian.so") {
 		print "smoothd failure"; }
 }
 
-if (-e "/var/smoothwall/guardian/saved") {
-	unlink "/var/smoothwall/guardian/saved";
+if (-e "/var/smoothwall/GAR/saved") {
+	unlink "/var/smoothwall/GAR/saved";
 }
 
 # # # # # # # # # # # #
 # handle file copying #
 # # # # # # # # # # # #
 
-my $mod = '/var/smoothwall/mods/guardian/modfiles';
-my $bkp = '/var/smoothwall/mods/guardian/backup';
+my $mod = '/var/smoothwall/mods/GAR/modfiles';
+my $bkp = '/var/smoothwall/mods/GAR/backup';
 
 $dir = '/httpd/cgi-bin';
-unless (-e "/var/smoothwall/mods/guardian/backup/ids.cgi") {
+unless (-e "/var/smoothwall/mods/GAR/backup/ids.cgi") {
 	&backup ('ids.cgi', $dir, $bkp);
 	&backup ('ipblock.cgi', $dir, $bkp);
 
@@ -74,7 +74,7 @@ unless (-e "/usr/lib/smoothwall/services/guardian") {
 	&install ('guardian', $dir, $mod);
 }
 
-if (-e "/etc/guardian.conf") { system("/bin/mv /etc/guardian.conf /var/smoothwall/mods/guardian/backup"); }
+if (-e "/etc/guardian.conf") { system("/bin/mv /etc/guardian.conf /var/smoothwall/mods/GAR/backup"); }
 $dir = '/etc';
 &install ('guardian.conf', $dir, $mod);
 
@@ -82,8 +82,8 @@ if (-e "/usr/local/sbin/guardian.pl") { unlink "/usr/local/sbin/guardian.pl"; }
 $dir = '/usr/local/sbin';
 &install ('guardian.pl', $dir, $mod);
 
-system("/bin/touch", '/var/smoothwall/mods/guardian/config');
-system("/bin/chown nobody:nobody /var/smoothwall/mods/guardian/config");
+system("/bin/touch", '/var/smoothwall/mods/GAR/config');
+system("/bin/chown nobody:nobody /var/smoothwall/mods/GAR/config");
 
 # # # # # # # # # # # #
 # handle file editing #
@@ -191,43 +191,43 @@ unless (-e "/etc/guardian.target") {
 	system("/bin/chown nobody:nobody /etc/guardian.target");
 }
 
-unless (-e "/var/smoothwall/guardian/unblock") { 
-	system("/bin/mkdir /var/smoothwall/guardian/");
-	system("/bin/chown nobody:nobody /var/smoothwall/guardian/");
-	system("/bin/touch /var/smoothwall/guardian/unblock");
-	system("/bin/chown nobody:nobody /var/smoothwall/guardian/unblock");
+unless (-e "/var/smoothwall/GAR/unblock") { 
+	system("/bin/mkdir /var/smoothwall/GAR/");
+	system("/bin/chown nobody:nobody /var/smoothwall/GAR/");
+	system("/bin/touch /var/smoothwall/GAR/unblock");
+	system("/bin/chown nobody:nobody /var/smoothwall/GAR/unblock");
 }
 
-unless (-e "/var/smoothwall/guardian/saved") { 
-	system("/bin/touch", '/var/smoothwall/guardian/saved');
-	system("/bin/chown nobody:nobody /var/smoothwall/guardian/saved"); 
+unless (-e "/var/smoothwall/GAR/saved") { 
+	system("/bin/touch", '/var/smoothwall/GAR/saved');
+	system("/bin/chown nobody:nobody /var/smoothwall/GAR/saved"); 
 }
 
 print "Setting permissions...\n";
 system("/bin/chown nobody:nobody /etc/guardian.conf");
 
 print "Creating guardian log directories if they do not exist...\n";
-unless (-e "/var/log/guardian/guardian.log") {
-	system("/bin/mkdir /var/log/guardian/");
-	system("/bin/mkdir /var/log/guardian/old/");
-	system("/bin/touch /var/log/guardian/guardian.log");
-	system("/bin/touch /var/log/guardian/guard.log");
-	system("/bin/touch /var/log/guardian/guard.err");
-	system("/bin/chown nobody:nobody /var/log/guardian/");
-	system("/bin/chown nobody:nobody /var/log/guardian/old");
-	system("/bin/chown nobody:nobody /var/log/guardian/*");
+unless (-e "/var/log/GAR/guardian.log") {
+	system("/bin/mkdir /var/log/GAR/");
+	system("/bin/mkdir /var/log/GAR/old/");
+	system("/bin/touch /var/log/GAR/guardian.log");
+	system("/bin/touch /var/log/GAR/guard.log");
+	system("/bin/touch /var/log/GAR/guard.err");
+	system("/bin/chown nobody:nobody /var/log/GAR/");
+	system("/bin/chown nobody:nobody /var/log/GAR/old");
+	system("/bin/chown nobody:nobody /var/log/GAR/*");
 }
 
-unless (-e "/var/log/guardian/old/") {
-	system("/bin/mkdir /var/log/guardian/old/");
-	system("/bin/chown nobody:nobody /var/log/guardian/old/");
+unless (-e "/var/log/GAR/old/") {
+	system("/bin/mkdir /var/log/GAR/old/");
+	system("/bin/chown nobody:nobody /var/log/GAR/old/");
 }
 
 unless (-e "/var/smoothwall/snort/rules/sid-msg.map") { system("/bin/touch", '/var/smoothwall/snort/rules/sid-msg.map'); }
 
 system("/bin/chown nobody:nobody /var/smoothwall/snort/rules/*");
 
-open (FILE,  "+>/var/smoothwall/mods/guardian/installed") or die 'Unable to create installed file';
+open (FILE,  "+>/var/smoothwall/mods/GAR/installed") or die 'Unable to create installed file';
 print FILE "GAR-3.0-SWE3\n";
 close FILE;
 
