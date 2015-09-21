@@ -36,11 +36,11 @@ if (-e "/var/smoothwall/guardian/saved") {
 # handle file copying #
 # # # # # # # # # # # #
 
-my $mod = '/var/smoothwall/mods/GARmodfiles';
-my $bkp = '/var/smoothwall/mods/GARbackup';
+my $mod = '/var/smoothwall/mods/GAR/modfiles';
+my $bkp = '/var/smoothwall/mods/GAR/backup';
 
 $dir = '/httpd/cgi-bin';
-unless (-e "/var/smoothwall/mods/GARbackup/ids.cgi") {
+unless (-e "/var/smoothwall/mods/GAR/backup/ids.cgi") {
 	&backup ('ids.cgi', $dir, $bkp);
 	&backup ('ipblock.cgi', $dir, $bkp);
 
@@ -74,7 +74,7 @@ unless (-e "/usr/lib/smoothwall/services/guardian") {
 	&install ('guardian', $dir, $mod);
 }
 
-if (-e "/etc/guardian.conf") { system("/bin/mv /etc/guardian.conf /var/smoothwall/mods/GARbackup"); }
+if (-e "/etc/guardian.conf") { system("/bin/mv /etc/guardian.conf /var/smoothwall/mods/GAR/backup"); }
 $dir = '/etc';
 &install ('guardian.conf', $dir, $mod);
 
@@ -82,8 +82,8 @@ if (-e "/usr/local/sbin/guardian.pl") { unlink "/usr/local/sbin/guardian.pl"; }
 $dir = '/usr/local/sbin';
 &install ('guardian.pl', $dir, $mod);
 
-system("/bin/touch", '/var/smoothwall/mods/GARconfig');
-system("/bin/chown nobody:nobody /var/smoothwall/mods/GARconfig");
+system("/bin/touch", '/var/smoothwall/mods/GAR/config');
+system("/bin/chown nobody:nobody /var/smoothwall/mods/GAR/config");
 
 # # # # # # # # # # # #
 # handle file editing #
@@ -227,7 +227,7 @@ unless (-e "/var/smoothwall/snort/rules/sid-msg.map") { system("/bin/touch", '/v
 
 system("/bin/chown nobody:nobody /var/smoothwall/snort/rules/*");
 
-open (FILE,  "+>/var/smoothwall/mods/GARinstalled") or die 'Unable to create installed file';
+open (FILE,  "+>/var/smoothwall/mods/GAR/installed") or die 'Unable to create installed file';
 print FILE "GAR-3.0-SWE3\n";
 close FILE;
 

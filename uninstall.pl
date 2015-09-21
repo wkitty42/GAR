@@ -50,7 +50,7 @@ unlink ("/usr/local/sbin/guardian.pl");
 unlink ("/etc/logrotate.d/guardian");
 unlink ("/etc/guardian.conf");
 unlink ("/etc/guardian.ignore");
-unlink ("/var/smoothwall/mods/GARinstalled");
+unlink ("/var/smoothwall/mods/GAR/installed");
 unlink ("/httpd/cgi-bin/gar-tracker.cgi");
 unlink ("/httpd/cgi-bin/logs.cgi/guardian.dat");
 unlink ("/usr/lib/smoothwall/menu/5000_Logs/3001_guardian.list");
@@ -60,7 +60,7 @@ system ("/bin/rm -rdf /var/smoothwall/guardian/");
 # restore   backups   #
 # # # # # # # # # # # #
 
-my $bkp = '/var/smoothwall/mods/GARbackup';
+my $bkp = '/var/smoothwall/mods/GAR/backup';
 
 $dir = '/httpd/cgi-bin';
 &uninstallrestore ('ids.cgi' ,$dir ,$bkp);
@@ -116,7 +116,7 @@ until ( $response eq "y" or $response eq "n" )
 
 if ( $response eq "y" ) {
 	print "Removing guardian mod directory...\n";
-	system("/bin/rm -rdf /var/smoothwall/mods/GAR");
+	system("/bin/rm -rdf /var/smoothwall/mods/GAR/");
 }
 
 $response = '';
