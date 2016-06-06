@@ -179,7 +179,8 @@ while (length($snort_version) < 5) {
 # end snort version query
 
 my $curdir = getcwd;
-my $url = 'https://s3.amazonaws.com/snort-org/www/rules/community/community-rules.tar.gz';
+#my $url = 'https://s3.amazonaws.com/snort-org/www/rules/community/community-rules.tar.gz';
+my $url = 'https://www.snort.org/downloads/community/community-rules.tar.gz';
 
 if (-e $tmpdir and -d $tmpdir) {
   # directory exists so go on
