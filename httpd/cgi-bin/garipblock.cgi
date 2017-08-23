@@ -105,114 +105,126 @@ my ${update_button} = 0;
 
 
 if ($cgiparams{'ACTION'} eq $tr{'remove'}) {
-    open (GARIPBLOCKFILE, "${GARipblock_filename}") or die "1 - GARipblock.cgi unable to open ${GARipblock_filename}.";
-    @current = <GARIPBLOCKFILE>;
-    close (GARIPBLOCKFILE);
+  # open the ipblock file for reading and writing... lock it and keep it open for the duration of this routine
+  open (GARIPBLOCKFILE, "+<${GARipblock_filename}") or die "1 - GARipblock.cgi unable to open ${GARipblock_filename}.";
+  flock GARIPBLOCKFILE, 2;
+  @current = <GARIPBLOCKFILE>;
+  #close (GARIPBLOCKFILE);
+  truncate (GARIPBLOCKFILE, 0) or die "2 - GARipblock.cgi unable to truncate ${GARipblock_filename}.";
+  seek (GARIPBLOCKFILE, 0, 0);
 
-    my ${count} = 0;
-    my ${id} = 0;
-    my ${line};
-    my ${source} = 0;
+  my ${count} = 0;
+  my ${id} = 0;
+  my ${line};
+  my ${source} = 0;
+  foreach ${line} (@current) {
+    ${id}++;
+    if ($cgiparams{${id}} eq "on") {
+      ${count}++;
+    }
+  }
+  if (${count} == 0) {
+    ${errormessage} = $tr{'nothing selected'};
+  }
+  unless (${errormessage}) {
+    #open (GARIPBLOCKFILE, ">${GARipblock_filename}") or die "2 - GARipblock.cgi unable to open ${GARipblock_filename}.";
+    #flock GARIPBLOCKFILE, 2;
+    # go ahead and open the GAR unblock file
+    open (GARUNBLOCKFILE, ">>${GARipunblock_filename}") or die "3 - GARipblock.cgi unable to open ${GARipunblock_filename}.";
+    flock GARUNBLOCKFILE, 2;
+    ${id} = 0;
     foreach ${line} (@current) {
-	${id}++;
-	if ($cgiparams{${id}} eq "on") {
-	    ${count}++;
-	}
+      ${id}++;
+      unless ($cgiparams{${id}} eq "on") {
+        print GARIPBLOCKFILE "${line}";
+      } else {
+        chomp(${line});
+        # split the fields
+        my @temp = split(/\,/,${line});
+        # add IP (first field) to GAR's unblock list
+        print GARUNBLOCKFILE "${temp[0]}\n";
+        # add IP back to the blockfile for GAR to remove
+        print GARIPBLOCKFILE "${line}\n";
+      }
     }
-    if (${count} == 0) {
-	${errormessage} = $tr{'nothing selected'};
-    }
-    unless (${errormessage}) {
-	open (GARIPBLOCKFILE, ">${GARipblock_filename}") or die "2 - GARipblock.cgi unable to open ${GARipblock_filename}.";
-	flock GARIPBLOCKFILE, 2;
-	# go ahead and open the GAR unblock file
-	open (GARUNBLOCKFILE, ">>${GARipunblock_filename}") or die "3 - GARipblock.cgi unable to open ${GARipunblock_filename}.";
-	flock GARUNBLOCKFILE, 2;
-	${id} = 0;
-	foreach ${line} (@current) {
-	    ${id}++;
-	    unless ($cgiparams{${id}} eq "on") {
-		print GARIPBLOCKFILE "${line}";
-	    } else {
-		chomp(${line});
-		# split the fields
-		my @temp = split(/\,/,${line});
-		# add IP (first field) to GAR's unblock list
-		print GARUNBLOCKFILE "${temp[0]}\n";
-		# add IP back to the blockfile for GAR to remove
-		print GARIPBLOCKFILE "${line}\n";
-	    }
-	}
-	# close the ipblock file first
-	close (GARIPBLOCKFILE);
-	# then close the unblock and let GAR have access to it
-	close (GARUNBLOCKFILE);
-    }
+    # close the ipblock file first
+    #close (GARIPBLOCKFILE);
+    # then close the unblock and let GAR have access to it
+    close (GARUNBLOCKFILE);
+  }
+  # now we close the ipblock file at the end of the routine
+  close (GARIPBLOCKFILE);
 }
 
 if ($cgiparams{'ACTION'} eq $tr{'switch to manual'}) {
-    open (GARIPBLOCKFILE, "${GARipblock_filename}") or die "4 - GARipblock.cgi unable to open ${GARipblock_filename}.";
-    @current = <GARIPBLOCKFILE>;
-    close (GARIPBLOCKFILE);
+  # open the ipblock file for reading and writing... lock it and keep it open for the duration of this routine
+  open (GARIPBLOCKFILE, "+<${GARipblock_filename}") or die "4 - GARipblock.cgi unable to open ${GARipblock_filename}.";
+  flock GARIPBLOCKFILE, 2;
+  @current = <GARIPBLOCKFILE>;
+  #close (GARIPBLOCKFILE);
+  truncate (GARIPBLOCKFILE, 0) or die "5 - GARipblock.cgi unable to truncate ${GARipblock_filename}.";
+  seek (GARIPBLOCKFILE, 0, 0);
 
-    my ${count} = 0;
-    my ${id} = 0;
-    my ${line};
-    my ${source} = 0;
+  my ${count} = 0;
+  my ${id} = 0;
+  my ${line};
+  my ${source} = 0;
+  foreach ${line} (@current) {
+    ${id}++;
+    if ($cgiparams{${id}} eq "on") {
+      ${count}++;
+    }
+  }
+  if (${count} ==  0) {
+    ${errormessage} = $tr{'nothing selected'};
+  }
+  unless (${errormessage}) {
+    # open GAR's ipblock file
+    #open (GARIPBLOCKFILE, ">${GARipblock_filename}") or die "5 - GARipblock.cgi unable to open ${GARipblock_filename}.";
+    #flock GARIPBLOCKFILE, 2;
+    # open the system's ipblock file
+    open (SWEIPBLOCKFILE, ">>${SWEipblock_filename}") or die "6 - GARipblock.cgi unable to open ${SWEipblock_filename}.";
+    flock SWEIPBLOCKFILE, 2;
+    # open GAR's unblock file
+    open (GARUNBLOCKFILE, ">>${GARipunblock_filename}") or die "7 - GARipblock.cgi unable to open ${GARipunblock_filename}.";
+    flock GARUNBLOCKFILE, 2;
+    ${id} = 0;
     foreach ${line} (@current) {
-	${id}++;
-	if ($cgiparams{${id}} eq "on") {
-	    ${count}++;
-	}
+      ${id}++;
+      unless ($cgiparams{${id}} eq "on") {
+        print GARIPBLOCKFILE "${line}";
+      } else {
+        chomp(${line});
+        # first make sure the unmodified line goes back into GAR's
+        # ipblock list so that GAR can remove it when it reads the
+        # unblock file
+        print GARIPBLOCKFILE "${line}\n";
+        # now split the line into the individual fields
+        my @temp = split(/\,/,${line});
+        # add the IP (first field) to GAR's unblock file
+        print GARUNBLOCKFILE "${temp[0]}\n";
+        # finally change the comment field to indicate the IP was
+        # moved from the GAR ipblock to the system's ipblock and
+        # write only the needed ipblock fields (0-4) to the system's
+        # ipblock file
+        ${temp[4]} = "Switched from GAR maintained to Manual";
+        print SWEIPBLOCKFILE "${temp[0]},${temp[1]},${temp[2]},${temp[3]},${temp[4]}\n";
+        # now indicate that we need to restart the system's ipblock
+        ${need_sysIPRestart} = 1;
+      }
     }
-    if (${count} ==  0) {
-	${errormessage} = $tr{'nothing selected'};
+    #close (GARIPBLOCKFILE);
+    close (GARUNBLOCKFILE);
+    close (SWEIPBLOCKFILE);
+    if (${need_sysIPRestart}) {
+      my ${success} = message('setipblock');
+      if (not defined ${success}) {
+        ${errormessage} = $tr{'smoothd failure'};
+      }
     }
-    unless (${errormessage}) {
-	# open GAR's ipblock file
-	open (GARIPBLOCKFILE, ">${GARipblock_filename}") or die "5 - GARipblock.cgi unable to open ${GARipblock_filename}.";
-	flock GARIPBLOCKFILE, 2;
-	# open the system's ipblock file
-	open (SWEIPBLOCKFILE, ">>${SWEipblock_filename}") or die "6 - GARipblock.cgi unable to open ${SWEipblock_filename}.";
-	flock SWEIPBLOCKFILE, 2;
-        # open GAR's unblock file
-	open (GARUNBLOCKFILE, ">>${GARipunblock_filename}") or die "7 - GARipblock.cgi unable to open ${GARipunblock_filename}.";
-	flock GARUNBLOCKFILE, 2;
-	${id} = 0;
-	foreach ${line} (@current) {
-	    ${id}++;
-	    unless ($cgiparams{${id}} eq "on") {
-		print GARIPBLOCKFILE "${line}";
-	    } else {
-		chomp(${line});
-		# first make sure the unmodified line goes back into GAR's
-		# ipblock list so that GAR can remove it when it reads the
-		# unblock file
-		print GARIPBLOCKFILE "${line}\n";
-		# now split the line into the individual fields
-		my @temp = split(/\,/,${line});
-		# add the IP (first field) to GAR's unblock file
-		print GARUNBLOCKFILE "${temp[0]}\n";
-		# finally change the comment field to indicate the IP was
-		# moved from the GAR ipblock to the system's ipblock and
-		# write only the needed ipblock fields (0-4) to the system's
-		# ipblock file
-		${temp[4]} = "Switched from GAR maintained to Manual";
-		print SWEIPBLOCKFILE "${temp[0]},${temp[1]},${temp[2]},${temp[3]},${temp[4]}\n";
-		# now indicate that we need to restart the system's ipblock
-		${need_sysIPRestart} = 1;
-	    }
-	}
-	close (GARIPBLOCKFILE);
-	close (GARUNBLOCKFILE);
-	close (SWEIPBLOCKFILE);
-	if (${need_sysIPRestart}) {
-	    my ${success} = message('setipblock');
-	    if (not defined ${success}) {
-		${errormessage} = $tr{'smoothd failure'};
-	    }
-	}
-    }
+  }
+  # now close the ipblock file at the end of this routine
+  close (GARIPBLOCKFILE);
 }
 
 if ($cgiparams{'ACTION'} eq '') {
